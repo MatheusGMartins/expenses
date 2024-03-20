@@ -1,3 +1,4 @@
+import 'package:expenses/components/chart.dart';
 import 'package:expenses/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -19,6 +20,12 @@ class ExpensesApp extends StatelessWidget {
             primary: Colors.purple,
             secondary: Colors.amber,
           ),
+          buttonTheme: ButtonThemeData(
+            buttonColor: Colors.deepPurple,
+            textTheme: ButtonTextTheme.accent,
+            colorScheme:
+                Theme.of(context).colorScheme.copyWith(secondary: Colors.white),
+          ),
           textTheme: tema.textTheme.copyWith(
               titleLarge: TextStyle(
                 fontFamily: 'OpenSans',
@@ -30,6 +37,7 @@ class ExpensesApp extends StatelessWidget {
                 fontFamily: 'Quicksand',
                 fontSize: 13,
                 color: Colors.grey,
+                fontWeight: FontWeight.bold,
               ),
               titleMedium: TextStyle(
                 fontFamily: 'Quicksand',
@@ -53,27 +61,22 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _transactions = [
-    // Transaction(
-    //   id: 't1',
-    //   title: 'Novo Tênis de Corrida',
-    //   value: 310.76,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 't2',
-    //   title: 'Conta de luz',
-    //   value: 211.30,
-    //   date: DateTime.now(),
-    // ),
-  ];
+  final List<Transaction> _transactions = [];
 
-  _addTransaction(String title, double value) {
+  List<Transaction> get _recentTransactions {
+    return _transactions.where((tr) {
+      return tr.date.isAfter(DateTime.now().subtract(
+        Duration(days: 7),
+      ));
+    }).toList();
+  }
+
+  _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
         id: Random().nextDouble().toString(),
         title: title,
         value: value,
-        date: DateTime.now());
+        date: date);
 
     setState(() {
       _transactions.add(newTransaction);
@@ -84,10 +87,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
-        context: context,
-        builder: (ctx) {
-          return TransactionForm(_addTransaction);
-        });
+      context: context,
+      builder: (ctx) {
+        return TransactionForm(_addTransaction);
+      },
+    );
   }
 
   @override
@@ -113,13 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              child: Card(
-                color: Theme.of(context).colorScheme.secondary,
-                child: Text('Gráfico'),
-                elevation: 5,
-              ),
-            ),
+            Chart(_recentTransactions),
             TransactionList(_transactions),
           ],
         ),
