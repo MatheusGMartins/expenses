@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:expenses/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -14,29 +12,29 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return transactions.isEmpty
         ? LayoutBuilder(
-          builder: (ctx, constraints) {
-            return Column(
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Nenhuma Transação Cadastrada!',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                    height: constraints.maxHeight * 0.6,
-                    child: Image.asset(
-                      'assets/images/waiting.png',
-                      fit: BoxFit.cover,
-                    )),
-              ],
-            );
-          } ,
-        )
+            builder: (ctx, constraints) {
+              return Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Nenhuma Transação Cadastrada!',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                      height: constraints.maxHeight * 0.6,
+                      child: Image.asset(
+                        'assets/images/waiting.png',
+                        fit: BoxFit.cover,
+                      )),
+                ],
+              );
+            },
+          )
         : ListView.builder(
             itemCount: transactions.length,
             itemBuilder: (ctx, index) {
@@ -71,13 +69,27 @@ class TransactionList extends StatelessWidget {
                     DateFormat('d MMM y').format(tr.date),
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
-                  trailing: IconButton(
-                    icon: Icon(
-                      Icons.delete,
-                    ),
-                    onPressed: () => onRemove(tr.id),
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+                  trailing: MediaQuery.of(context).size.width > 480
+                      ? TextButton.icon(
+                          onPressed: () => onRemove(tr.id),
+                          icon: Icon(
+                            Icons.delete,
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                          label: Text(
+                            'Excluir',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
+                        )
+                      : IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                          ),
+                          onPressed: () => onRemove(tr.id),
+                          color: Theme.of(context).colorScheme.error,
+                        ),
                 ),
               );
             },
