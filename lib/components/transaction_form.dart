@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'adaptative_button.dart';
+import 'adaptative_text_field.dart';
+import 'adaptative_date_picker.dart';
 
 class TransactionForm extends StatefulWidget {
   final void Function(String title, double value, DateTime date) onSubmit;
@@ -28,22 +29,6 @@ class _TransactionFormState extends State<TransactionForm> {
     widget.onSubmit(title, value, _selectedDate);
   }
 
-  _showDatePicker() {
-    showDatePicker(
-      context: context,
-      firstDate: DateTime(2019),
-      lastDate: DateTime.now(),
-    ).then((picekedDate) {
-      if (picekedDate == null) {
-        return;
-      }
-
-      setState(() {
-        _selectedDate = picekedDate;
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -58,42 +43,27 @@ class _TransactionFormState extends State<TransactionForm> {
           ),
           child: Column(
             children: [
-              TextField(
+              AdaptativeTextField(
                 controller: _titleController,
                 onSubmitted: (_) => _submitForm(),
-                decoration: InputDecoration(labelText: 'Título'),
+                label: 'Título',
               ),
-              TextField(
+              AdaptativeTextField(
                 controller: _valueController,
-                decoration: InputDecoration(labelText: 'Valor (R\$)'),
+                label: 'Valor (R\$)',
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                 onSubmitted: (_) => _submitForm(),
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
                 ],
               ),
-              Container(
-                height: 70,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        _selectedDate == null
-                            ? 'Nenhuma data selecionada!'
-                            : 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate!)}',
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: _showDatePicker,
-                      child: Text(
-                        'Selecionar Data',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
-                ),
+              AdaptativeDatePicker(
+                selectedDate: _selectedDate,
+                onDateChanged: (newDate) {
+                  setState(() {
+                    _selectedDate = newDate;
+                  });
+                },
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
