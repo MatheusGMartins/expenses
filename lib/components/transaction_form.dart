@@ -7,7 +7,7 @@ import 'adaptative_date_picker.dart';
 class TransactionForm extends StatefulWidget {
   final void Function(String title, double value, DateTime date) onSubmit;
 
-  TransactionForm(this.onSubmit);
+  const TransactionForm(this.onSubmit, {super.key});
 
   @override
   State<TransactionForm> createState() => _TransactionFormState();
@@ -22,7 +22,7 @@ class _TransactionFormState extends State<TransactionForm> {
     final title = _titleController.text;
     final value = double.tryParse(_valueController.text) ?? 0.0;
 
-    if (title.isEmpty || value <= 0 || _selectedDate == null) {
+    if (title.isEmpty || value <= 0) {
       return;
     }
 
@@ -51,7 +51,7 @@ class _TransactionFormState extends State<TransactionForm> {
               AdaptativeTextField(
                 controller: _valueController,
                 label: 'Valor (R\$)',
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 onSubmitted: (_) => _submitForm(),
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp('[0-9.]')),

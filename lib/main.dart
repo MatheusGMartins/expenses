@@ -11,11 +11,13 @@ main() => runApp(ExpensesApp());
 
 class ExpensesApp extends StatelessWidget {
   final ThemeData tema = ThemeData();
+
+  ExpensesApp({super.key});
   @override
   Widget build(BuildContext context) {
     // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
-      home: MyHomePage(),
+      home: const MyHomePage(),
       theme: tema.copyWith(
           // primaryColor: Colors.purple,
           // secondaryHeaderColor: Colors.amber,
@@ -30,24 +32,24 @@ class ExpensesApp extends StatelessWidget {
                 Theme.of(context).colorScheme.copyWith(secondary: Colors.white),
           ),
           textTheme: tema.textTheme.copyWith(
-              titleLarge: TextStyle(
+              titleLarge: const TextStyle(
                 fontFamily: 'OpenSans',
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
-              titleSmall: TextStyle(
+              titleSmall: const TextStyle(
                 fontFamily: 'Quicksand',
                 fontSize: 13,
                 color: Colors.grey,
                 fontWeight: FontWeight.bold,
               ),
-              titleMedium: TextStyle(
+              titleMedium: const TextStyle(
                 fontFamily: 'Quicksand',
                 fontSize: 15,
                 color: Colors.black,
               )),
-          appBarTheme: AppBarTheme(
+          appBarTheme: const AppBarTheme(
             titleTextStyle: TextStyle(
               fontFamily: 'OpenSans',
               fontSize: 20,
@@ -59,6 +61,8 @@ class ExpensesApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -70,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
       return tr.date.isAfter(DateTime.now().subtract(
-        Duration(days: 7),
+        const Duration(days: 7),
       ));
     }).toList();
   }
@@ -142,9 +146,9 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
 
     final PreferredSizeWidget appBar = AppBar(
-      title: Container(
+      title: const SizedBox(
         width: double.infinity,
-        child: const Text(
+        child: Text(
           'Despesas Pessoais',
           textAlign: TextAlign.start,
         ),
@@ -178,12 +182,12 @@ class _MyHomePageState extends State<MyHomePage> {
             //     ],
             //   ),
             if (_showChart || !isLandscape)
-              Container(
+              SizedBox(
                 height: availableHeight * (isLandscape ? 0.7 : 0.25),
                 child: Chart(_recentTransactions),
               ),
             if (!_showChart || !isLandscape)
-              Container(
+              SizedBox(
                 height: availableHeight * (isLandscape ? 1 : 0.75),
                 child: TransactionList(_transactions, _removeTransaction),
               ),
@@ -195,7 +199,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Platform.isIOS
         ? CupertinoPageScaffold(
             navigationBar: CupertinoNavigationBar(
-              middle: Text('Despesas Pessoais'),
+              middle: const Text('Despesas Pessoais'),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: actions,
@@ -209,9 +213,9 @@ class _MyHomePageState extends State<MyHomePage> {
             floatingActionButton: Platform.isIOS
                 ? Container()
                 : FloatingActionButton(
-                    child: Icon(Icons.add),
                     onPressed: () => _openTransactionFormModal(context),
                     backgroundColor: Theme.of(context).colorScheme.secondary,
+                    child: const Icon(Icons.add),
                   ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,

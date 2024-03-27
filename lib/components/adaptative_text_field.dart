@@ -10,8 +10,8 @@ class AdaptativeTextField extends StatelessWidget {
   final Function(String) onSubmitted;
   final List<TextInputFormatter>? inputFormatters;
 
-  AdaptativeTextField(
-      {required this.controller,
+  const AdaptativeTextField(
+      {super.key, required this.controller,
       required this.onSubmitted,
       required this.label,
       this.keyboardType,
@@ -29,7 +29,7 @@ class AdaptativeTextField extends StatelessWidget {
               keyboardType: keyboardType,
               onSubmitted: onSubmitted,
               placeholder: label,
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 6,
                 vertical: 12,
               ),

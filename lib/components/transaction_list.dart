@@ -6,7 +6,7 @@ class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
   final void Function(String id) onRemove;
 
-  const TransactionList(this.transactions, this.onRemove);
+  const TransactionList(this.transactions, this.onRemove, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,17 +15,17 @@ class TransactionList extends StatelessWidget {
             builder: (ctx, constraints) {
               return Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Text(
                     'Nenhuma Transação Cadastrada!',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Container(
+                  SizedBox(
                       height: constraints.maxHeight * 0.6,
                       child: Image.asset(
                         'assets/images/waiting.png',
@@ -41,7 +41,7 @@ class TransactionList extends StatelessWidget {
               final tr = transactions[index];
               return Card(
                 elevation: 5,
-                margin: EdgeInsets.symmetric(
+                margin: const EdgeInsets.symmetric(
                   vertical: 8,
                   horizontal: 5,
                 ),
@@ -54,7 +54,7 @@ class TransactionList extends StatelessWidget {
                       child: FittedBox(
                         child: Text(
                           'R\$${tr.value}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                           ),
                         ),
@@ -84,7 +84,7 @@ class TransactionList extends StatelessWidget {
                           ),
                         )
                       : IconButton(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.delete,
                           ),
                           onPressed: () => onRemove(tr.id),
