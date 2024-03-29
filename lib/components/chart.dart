@@ -26,7 +26,7 @@ class Chart extends StatelessWidget {
       }
 
       return {
-        'day': DateFormat.E().format(weekDay)[0],
+        'day': DateFormat.E('pt_Br').format(weekDay)[0].toUpperCase(),
         'value': totalSum,
       };
     }).reversed.toList();

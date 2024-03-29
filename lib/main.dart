@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:expenses/components/transaction_form.dart';
 import 'package:expenses/components/transaction_list.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 main() => runApp(ExpensesApp());
 
@@ -17,6 +18,13 @@ class ExpensesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: const [
+        Locale('pt', 'BR'),
+      ],
       home: const MyHomePage(),
       theme: tema.copyWith(
           // primaryColor: Colors.purple,
@@ -127,7 +135,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final mediaQuery = MediaQuery.of(context);
     bool isLandscape = mediaQuery.orientation == Orientation.landscape;
     final iconList = Platform.isIOS ? CupertinoIcons.refresh : Icons.list;
-    final chartList = Platform.isIOS ? CupertinoIcons.refresh : Icons.show_chart;
+    final chartList =
+        Platform.isIOS ? CupertinoIcons.refresh : Icons.show_chart;
 
     final actions = [
       if (isLandscape)
